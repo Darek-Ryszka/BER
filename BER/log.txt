@@ -1,0 +1,2 @@
+
+Tue Apr 26 14:16:54 2022 :  Blad ! Zla liczba argumentow ! (0) - required: 2.
