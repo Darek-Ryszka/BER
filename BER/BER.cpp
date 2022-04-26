@@ -7,8 +7,10 @@
 #include <fstream>
 #include <ctime>
 #include <string>
+#include <vector>
 #include <time.h>
 #include <stdlib.h>
+#include <bitset>
 
 using namespace std;
 
@@ -25,9 +27,35 @@ void initLog(string message)
 
     logFile.close();
 }
+vector<vector<char>> convertToVector(fstream& file) 
+{
+    vector<vector<char>> sequenceVector;
+    while (!file.eof()) 
+        {
+            string byte;
+            vector<char> byteVector;
+            int charCode = file.get();
+            int i = 0;
 
+            if (charCode != -1) 
+                {
+                    byte = bitset<8>(charCode).to_string();
+
+                    for (int bit = 0; bit < 8; bit++) 
+                        {
+                            byteVector.push_back(byte[bit]);
+                        }
+                    sequenceVector.push_back(byteVector);
+                    i++;
+                }      
+        }
+    initLog(" Konwersja na bity ");
+    return sequenceVector;
+}
 int main(int argc, char** argv)
 {
+    initLog(" Start programu ");
+
     if (argc != 3)
         {
             initLog(" Blad ! Zla liczba argumentow ! (" + to_string(argc - 1) + ") - required: 2.");
@@ -50,10 +78,15 @@ int main(int argc, char** argv)
             initLog((string)" Udalo sie pomyslnie otworzyc pliki :) 1) " + argv[1] + " 2) " + argv[2]);
         }
 
+    vector<vector<char>> byteSeqA = convertToVector(file_A);
+    vector<vector<char>> byteSeqB = convertToVector(file_B);
+
     file_A.close();
     file_B.close();
 
     initLog(" Zamkniecie obu plikow ");
+
+    initLog(" Stop programu ");
 
     return 0;
 }
