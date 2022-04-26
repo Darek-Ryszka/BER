@@ -1,0 +1,6 @@
+
+Tue Apr 26 14:18:42 2022 :  Udalo sie pomyslnie otworzyc pliki :) 1) A.txt 2) B.txt
+Tue Apr 26 14:18:42 2022 :  Zamkniecie obu plikow 
+Tue Apr 26 14:22:15 2022 :  Udalo sie pomyslnie otworzyc pliki :) 1) A.txt 2) B.txt
+Tue Apr 26 14:22:15 2022 :  Zamkniecie obu plikow 
+Tue Apr 26 14:22:26 2022 :  Blad ! Zla liczba argumentow ! (1) - required: 2.
