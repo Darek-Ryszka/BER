@@ -27,8 +27,10 @@ void initLog(string message)
 
     logFile.close();
 }
-vector<vector<char>> convertToVector(fstream& file) 
+vector<vector<char>> convertToVector(fstream &file) 
 {
+    initLog(" Rozpoczeto konwersje pliku ");
+
     vector<vector<char>> sequenceVector;
     while (!file.eof()) 
         {
@@ -49,8 +51,35 @@ vector<vector<char>> convertToVector(fstream& file)
                     i++;
                 }      
         }
-    initLog(" Konwersja na bity ");
+    initLog(" Konwersja zakonczona ");
     return sequenceVector;
+}
+int comparison(vector<vector<char>> seqA, vector<vector<char>> seqB) 
+{
+    initLog(" Rozpoczeto obliczanie roznicy ");
+
+    vector<vector<char>> tmp;
+    int diffs = 0;
+    int size_A = seqA.size();
+    int size_B = seqB.size();
+
+    if (size_A > size_B) 
+        {
+            tmp = seqA;
+            seqA = seqB;
+            seqB = tmp;
+        }
+    for (int i = 0; i < size_A; i++) 
+        {
+            for (int j = 0; j < 8; j++) 
+            {
+                if (seqA[i][j] != seqB[i][j]) diffs++;
+            }
+        }
+    diffs += (size_B - size_A) * 8;
+    initLog(" Obliczanie zakonczone ");
+
+    return diffs;
 }
 int main(int argc, char** argv)
 {
@@ -58,7 +87,7 @@ int main(int argc, char** argv)
 
     if (argc != 3)
         {
-            initLog(" Blad ! Zla liczba argumentow ! (" + to_string(argc - 1) + ") - required: 2.");
+            initLog(" Blad ! Zla liczba argumentow ! (" + to_string(argc - 1) + ") - zalecane: 2.");
 
             return 0;
         }
@@ -81,10 +110,12 @@ int main(int argc, char** argv)
     vector<vector<char>> byteSeqA = convertToVector(file_A);
     vector<vector<char>> byteSeqB = convertToVector(file_B);
 
-    file_A.close();
-    file_B.close();
+    int diff = comparison(byteSeqA, byteSeqB);
 
-    initLog(" Zamkniecie obu plikow ");
+    file_A.close();
+    initLog((string)" Plik " + argv[1] + " zamkniety ");
+    file_B.close();
+    initLog((string)" Plik " + argv[2] + " zamkniety ");
 
     initLog(" Stop programu ");
 
