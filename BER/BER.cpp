@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <tuple>
 #include <bitset>
+#include <chrono>
 
 using namespace std;
 
@@ -28,67 +29,42 @@ void initLog(string message)
 
     logFile.close();
 }
-vector<vector<char>> convertToVector(fstream &file) 
-{
-    initLog(" Rozpoczeto konwersje pliku ");
+tuple<int, int, float, long> comparison(fstream& file_A, fstream& file_B) {
 
-    vector<vector<char>> sequenceVector;
-    while (!file.eof()) 
-        {
-            string byte;
-            vector<char> byteVector;
-            int charCode = file.get();
-            int i = 0;
-
-            if (charCode != -1) 
-                {
-                    byte = bitset<8>(charCode).to_string();
-
-                    for (int bit = 0; bit < 8; bit++) 
-                        {
-                            byteVector.push_back(byte[bit]);
-                        }
-                    sequenceVector.push_back(byteVector);
-                    i++;
-                }      
-        }
-    initLog(" Konwersja zakonczona ! ");
-    return sequenceVector;
-}
-tuple<int, int, float, long> comparison(vector<vector<char>> seqA, vector<vector<char>> seqB)
-{
-    initLog(" Rozpoczeto obliczanie roznicy ");
-
-    vector<vector<char>> tmp;
-    int diffs = 0, compared = 0;
+    int diff = 0, comparison = 0;
+    long sizeInBytes = 0L;
     float ber = 0.;
-    long time = 0;
-    int size_A = seqA.size();
-    int size_B = seqB.size();
+    char a, b;
+    string bitSetA, bitSetB;
 
-    if (size_A > size_B) 
-        {
-            tmp = seqA;
-            seqA = seqB;
-            seqB = tmp;
-            size_A = seqA.size();
-            size_B = seqB.size();
-        }
-    for (int i = 0; i < size_A; i++) 
-        {
-            for (int j = 0; j < 8; j++) 
-                {
-                    if (seqA[i][j] != seqB[i][j]) 
-                        {
-                            diffs++;
+    initLog(" Rozpoczeto obliczanie roznicy ");
+    auto start = chrono::high_resolution_clock::now();
+
+    while (!file_A.eof()) {
+
+        a = file_A.get();
+        b = file_B.get();
+        sizeInBytes++;
+
+        if (a != b) {
+            bitSetA = bitset<8>(a).to_string();
+            bitSetB = bitset<8>(b).to_string();
+
+            for (int i = 7; i >= 0; i--) {
+                if (bitSetA[i] != bitSetB[i]) diff++;
+                comparison++;
                         }
-                    compared++;
                 }
         }
-    diffs += (size_B - size_A) * 8;
-    ber = float(diffs) / float(size_B * 8.) * 100.;
-    tuple<int, int, float, long> results = make_tuple(compared, diffs, ber, time);
+    sizeInBytes -= 1;
+    ber = float(diff) / (sizeInBytes * 8.) * 100.;
+
+    auto stop = chrono::high_resolution_clock::now();
+
     initLog(" Obliczanie zakonczone ");
+
+    auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
+    tuple<int, int, float, long> results = make_tuple(comparison, diff, ber, duration.count());
 
     return results;
 }
@@ -118,14 +94,12 @@ int main(int argc, char** argv)
             initLog((string)" Udalo sie pomyslnie otworzyc pliki :) 1) " + argv[1] + " 2) " + argv[2]);
         }
 
-    vector<vector<char>> byteSeqA = convertToVector(file_A);
-    vector<vector<char>> byteSeqB = convertToVector(file_B);
+    tuple<int, int, float, long> results = comparison(file_A, file_B);
 
-    tuple<int, int, float, long> results = comparison(byteSeqA, byteSeqB);
     string resultMsg = " Ilosc porownanych bitow: " + to_string(get<0>(results)) +
         "; Ilosc roznych bitow: " + to_string(get<1>(results)) +
         "; BER: " + to_string(get<2>(results)) + "%" +
-        "; Czas obliczen: " + to_string(get<3>(results));
+        "; Czas obliczen: " + to_string(get<3>(results)) + " ms";
     initLog(resultMsg);
     cout << resultMsg << endl;
 
