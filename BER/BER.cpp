@@ -7,9 +7,7 @@
 #include <fstream>
 #include <ctime>
 #include <string>
-#include <vector>
 #include <time.h>
-#include <stdlib.h>
 #include <tuple>
 #include <bitset>
 #include <chrono>
@@ -29,7 +27,9 @@ void initLog(string message)
 
     logFile.close();
 }
-tuple<int, int, float, long> comparison(fstream& file_A, fstream& file_B) {
+
+tuple<int, int, float, long> comparison(fstream& file_A, fstream& file_B) 
+{
 
     int diff = 0, comparison = 0;
     long sizeInBytes = 0L;
@@ -38,23 +38,27 @@ tuple<int, int, float, long> comparison(fstream& file_A, fstream& file_B) {
     string bitSetA, bitSetB;
 
     initLog(" Rozpoczeto obliczanie roznicy ");
+
     auto start = chrono::high_resolution_clock::now();
 
-    while (!file_A.eof()) {
+    while (!file_A.eof()) 
+    {
 
         a = file_A.get();
         b = file_B.get();
         sizeInBytes++;
 
-        if (a != b) {
-            bitSetA = bitset<8>(a).to_string();
-            bitSetB = bitset<8>(b).to_string();
+        if (a != b) 
+            {
+                bitSetA = bitset<8>(a).to_string();
+                bitSetB = bitset<8>(b).to_string();
 
-            for (int i = 7; i >= 0; i--) {
-                if (bitSetA[i] != bitSetB[i]) diff++;
-                comparison++;
-                        }
-                }
+                for (int i = 7; i >= 0; i--) 
+                    {
+                        if (bitSetA[i] != bitSetB[i]) diff++;
+                        comparison++;
+                    }
+             }
         }
     sizeInBytes -= 1;
     ber = float(diff) / (sizeInBytes * 8.) * 100.;
@@ -68,6 +72,7 @@ tuple<int, int, float, long> comparison(fstream& file_A, fstream& file_B) {
 
     return results;
 }
+
 int main(int argc, char** argv)
 {
     initLog(" Start programu ");
@@ -100,6 +105,7 @@ int main(int argc, char** argv)
         "; Ilosc roznych bitow: " + to_string(get<1>(results)) +
         "; BER: " + to_string(get<2>(results)) + "%" +
         "; Czas obliczen: " + to_string(get<3>(results)) + " ms";
+
     initLog(resultMsg);
     cout << resultMsg << endl;
 
