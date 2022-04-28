@@ -10,6 +10,7 @@
 #include <vector>
 #include <time.h>
 #include <stdlib.h>
+#include <tuple>
 #include <bitset>
 
 using namespace std;
@@ -51,15 +52,17 @@ vector<vector<char>> convertToVector(fstream &file)
                     i++;
                 }      
         }
-    initLog(" Konwersja zakonczona ");
+    initLog(" Konwersja zakonczona ! ");
     return sequenceVector;
 }
-int comparison(vector<vector<char>> seqA, vector<vector<char>> seqB) 
+tuple<int, int, float, long> comparison(vector<vector<char>> seqA, vector<vector<char>> seqB)
 {
     initLog(" Rozpoczeto obliczanie roznicy ");
 
     vector<vector<char>> tmp;
-    int diffs = 0;
+    int diffs = 0, compared = 0;
+    float ber = 0.;
+    long time = 0;
     int size_A = seqA.size();
     int size_B = seqB.size();
 
@@ -68,18 +71,26 @@ int comparison(vector<vector<char>> seqA, vector<vector<char>> seqB)
             tmp = seqA;
             seqA = seqB;
             seqB = tmp;
+            size_A = seqA.size();
+            size_B = seqB.size();
         }
     for (int i = 0; i < size_A; i++) 
         {
             for (int j = 0; j < 8; j++) 
-            {
-                if (seqA[i][j] != seqB[i][j]) diffs++;
-            }
+                {
+                    if (seqA[i][j] != seqB[i][j]) 
+                        {
+                            diffs++;
+                        }
+                    compared++;
+                }
         }
     diffs += (size_B - size_A) * 8;
+    ber = float(diffs) / float(size_B * 8.) * 100.;
+    tuple<int, int, float, long> results = make_tuple(compared, diffs, ber, time);
     initLog(" Obliczanie zakonczone ");
 
-    return diffs;
+    return results;
 }
 int main(int argc, char** argv)
 {
@@ -110,7 +121,13 @@ int main(int argc, char** argv)
     vector<vector<char>> byteSeqA = convertToVector(file_A);
     vector<vector<char>> byteSeqB = convertToVector(file_B);
 
-    int diff = comparison(byteSeqA, byteSeqB);
+    tuple<int, int, float, long> results = comparison(byteSeqA, byteSeqB);
+    string resultMsg = " Ilosc porownanych bitow: " + to_string(get<0>(results)) +
+        "; Ilosc roznych bitow: " + to_string(get<1>(results)) +
+        "; BER: " + to_string(get<2>(results)) + "%" +
+        "; Czas obliczen: " + to_string(get<3>(results));
+    initLog(resultMsg);
+    cout << resultMsg << endl;
 
     file_A.close();
     initLog((string)" Plik " + argv[1] + " zamkniety ");
