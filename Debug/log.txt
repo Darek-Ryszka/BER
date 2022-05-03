@@ -4,3 +4,30 @@ Tue Apr 26 14:18:42 2022 :  Zamkniecie obu plikow
 Tue Apr 26 14:22:15 2022 :  Udalo sie pomyslnie otworzyc pliki :) 1) A.txt 2) B.txt
 Tue Apr 26 14:22:15 2022 :  Zamkniecie obu plikow 
 Tue Apr 26 14:22:26 2022 :  Blad ! Zla liczba argumentow ! (1) - required: 2.
+Tue May  3 08:51:35 2022 :  Udalo sie pomyslnie otworzyc pliki :) 1) A 2) B
+Tue May  3 08:51:35 2022 :  Zamkniecie obu plikow 
+Tue May  3 08:58:14 2022 :  Nie mozna otworzyc jednego z plikow ! 
+Tue May  3 08:59:09 2022 :  Start programu 
+Tue May  3 08:59:09 2022 :  Udalo sie pomyslnie otworzyc pliki :) 1) A.txt 2) B.txt
+Tue May  3 08:59:09 2022 :  Rozpoczeto obliczanie roznicy 
+Tue May  3 08:59:09 2022 :  Obliczanie zakonczone 
+Tue May  3 08:59:09 2022 :  Ilosc porownanych bitow: 0; Ilosc roznych bitow: 0; BER: 0.000000%; Czas obliczen: 1 ms
+Tue May  3 08:59:09 2022 :  Plik A.txt zamkniety 
+Tue May  3 08:59:09 2022 :  Plik B.txt zamkniety 
+Tue May  3 08:59:09 2022 :  Stop programu 
+Tue May  3 09:04:03 2022 :  Start programu 
+Tue May  3 09:04:03 2022 :  Udalo sie pomyslnie otworzyc pliki :) 1) A.txt 2) B.txt
+Tue May  3 09:04:03 2022 :  Rozpoczeto obliczanie roznicy 
+Tue May  3 09:04:03 2022 :  Obliczanie zakonczone 
+Tue May  3 09:04:03 2022 :  Ilosc porownanych bitow: 16; Ilosc roznych bitow: 2; BER: 0.250000%; Czas obliczen: 0 ms
+Tue May  3 09:04:03 2022 :  Plik A.txt zamkniety 
+Tue May  3 09:04:03 2022 :  Plik B.txt zamkniety 
+Tue May  3 09:04:03 2022 :  Stop programu 
+Tue May  3 09:07:21 2022 :  Start programu 
+Tue May  3 09:07:21 2022 :  Udalo sie pomyslnie otworzyc pliki :) 1) A.txt 2) B.txt
+Tue May  3 09:07:21 2022 :  Rozpoczeto obliczanie roznicy 
+Tue May  3 09:07:21 2022 :  Obliczanie zakonczone 
+Tue May  3 09:07:21 2022 :  Ilosc porownanych bitow: 16; Ilosc roznych bitow: 2; BER: 0.062500%; Czas obliczen: 0 ms
+Tue May  3 09:07:21 2022 :  Plik A.txt zamkniety 
+Tue May  3 09:07:21 2022 :  Plik B.txt zamkniety 
+Tue May  3 09:07:21 2022 :  Stop programu 
